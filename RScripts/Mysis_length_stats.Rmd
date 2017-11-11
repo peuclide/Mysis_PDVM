@@ -1,0 +1,35 @@
+---
+title: "Mysis length"
+author: "Peter Euclide"
+date: "January 2, 2016"
+output: html_document
+---
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+setwd("~/Dropbox/Mysis metapopulations")
+
+mysis_dat <- read.csv("CopyofMysisIDs.csv")
+
+#data filter
+no.gravid <- subset(mysis_dat, Fecund.Fem..Y.N. == "N")
+no.gravid <- subset(no.gravid, Habitat != "")
+  no.gravid <- droplevels(no.gravid)
+no.gravid <- subset(no.gravid, ID >= 105)
+#make length numeric
+no.gravid$Length..mm.2 <- as.numeric(as.character(no.gravid$Length..mm.))
+
+len.ng <- lm(Length..mm.2 ~ Habitat, data = no.gravid)
+  anova(len.ng)
+  plot(Length..mm.2 ~ Habitat, data = no.gravid)
+    P <- no.gravid[no.gravid$Habitat == "Pelagic",]
+      mean(P$Length..mm.2)
+    B <- no.gravid[no.gravid$Habitat == "Benthic",]
+      mean(P$Length..mm.2)
+
+#conclusion : yes, lengths are significantly different when Gravid females are removed, however, the averages are essentially equil. plot shows lengths looking largely the same. 
+```
+

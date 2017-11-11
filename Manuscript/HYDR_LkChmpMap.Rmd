@@ -1,0 +1,79 @@
+---
+title: "MYSISPDVM_Map"
+author: "Peter Euclide"
+date: "July 1, 2016"
+output: html_document
+---
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+setwd("~/Documents/OneDrive/Documents/UVM/PhD/LakeChamplainMap") #mac
+
+```
+
+### Required packages
+
+```{r}
+library(maps)
+library(mapdata)
+library(maptools)
+```
+
+### Read in shapefile of Lake Champlain
+```{r}
+LakeChamplain <- readShapePoly("lakechamp22222")
+
+```
+###Read in csv of sample locations with coordinates in decimal degrees
+
+```{r}
+
+
+
+```
+###Set lat (y axis) and lon (x axis) limits for all plots
+```{r}
+latlim <- c(40.0,46.11)
+lonlim <- c(-77.7,-70.9)
+
+#zoomed view
+
+latlim <- c(43.8,45.11)
+lonlim <- c(-73.7,-72.9)
+
+latlim <- c(43.5,45.11)
+lonlim <- c(-73.5,-73.0)
+```
+
+### Plot the Map
+
+```{r}
+map("worldHires", "Canada", xlim=lonlim, ylim=latlim, col="gray80", fill=F)
+
+### Plott base map of USA and rivers/ state boundaries
+
+map("usa",xlim=lonlim, ylim=latlim, add = T, col="gray80", fill=F)
+map("state", add=TRUE)
+
+###plot lake camplain shape
+
+plot(LakeChamplain, xlim=lonlim, ylim=latlim, add=TRUE, col="gray87")
+
+
+```
+
+
+#create a scal bar of 10 km
+```{r}
+scale <- data.frame(2,2)
+scale[1,1] <- -73.215922
+scale[1,2] <-  44.350753
+scale[2,1] <- -73.090129
+scale[2,2] <-  44.349969
+
+lines(scale, col="black", lwd=5)
+
+```
